@@ -5,22 +5,24 @@ open System
 open System.IO
 open System.Reflection
 //Environment.CurrentDirectory <- @"C:\PROJ\FSharp.Compiler.Service_585\bin"
-let scriptFilePath = Path.GetFullPath @"myscript.fsx"
+let script1FilePath = Path.GetFullPath @"1.fsx"
+let script2FilePath = Path.GetFullPath @"2.fsx"
+File.WriteAllText(script2FilePath, @"
+let func = (fun () ->
+    printfn ""This shouldn't work""
+) )");
+File.WriteAllText(script1FilePath, @"
+#load ""2.fsx""
 
-let someLib = Path.GetFullPath @"bin/lib/LibraryUsingTypeprovider.dll"
-File.WriteAllText(scriptFilePath, @"
-#r """ + someLib.Replace(@"\", @"\\") + @"""
-open System
-Console.WriteLine(""TEST_OUTPUT"")");
+``2``.func()");
 open Microsoft.FSharp.Compiler.Interactive.Shell
 
 [<EntryPoint>]
 let main args =
-  printfn "%s" LibraryUsingTypeprovider.OtherStuff.t
   let fsiConfig = FsiEvaluationSession.GetDefaultConfiguration()
   let fsiArgs = [| @"C:\fsi.exe" |]
   let inStream = new StringReader("")
   use session = FsiEvaluationSession.Create(fsiConfig, fsiArgs, inStream, Console.Out, Console.Error)
-  session.EvalScriptNonThrowing scriptFilePath |> printfn "%A"
+  session.EvalScriptNonThrowing script1FilePath |> printfn "%A"
   //execScript scriptFilePath
   0
