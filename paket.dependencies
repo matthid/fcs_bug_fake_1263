@@ -1,0 +1,7 @@
+source http://nuget.org/api/v2
+redirects: on
+
+nuget FAKE
+nuget FSharp.Core
+nuget FSharp.Compiler.Service
+nuget FSharp.Data
