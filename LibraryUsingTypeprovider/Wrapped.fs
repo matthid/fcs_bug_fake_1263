@@ -7,3 +7,6 @@ open FSharp.Data.JsonExtensions
 module Wrapped =
   let useSomething (j : JsonValue) =
     j?Major.AsInteger()
+
+module OtherStuff =
+  let t = "test"
