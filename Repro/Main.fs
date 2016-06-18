@@ -7,14 +7,21 @@ open System.Reflection
 //Environment.CurrentDirectory <- @"C:\PROJ\FSharp.Compiler.Service_585\bin"
 let script1FilePath = Path.GetFullPath @"1.fsx"
 let script2FilePath = Path.GetFullPath @"2.fsx"
-File.WriteAllText(script2FilePath, @"
-let func = (fun () ->
-    printfn ""This shouldn't work""
-) )");
+let script3FilePath = Path.GetFullPath @"3.fsx"
+let script4FilePath = Path.GetFullPath @"4.fsx"
 File.WriteAllText(script1FilePath, @"
 #load ""2.fsx""
-
-``2``.func()");
+#load ""3.fsx""
+printfn ""HELLO FROM 1""")
+File.WriteAllText(script2FilePath, @"
+#load ""4.fsx""
+printfn ""HELLO FROM 2 %A"" ``4``.T")
+File.WriteAllText(script3FilePath, @"
+#load ""4.fsx""
+printfn ""HELLO FROM 3""")
+File.WriteAllText(script4FilePath, @"
+printfn ""HELLO FROM 4""
+type T = T")
 open Microsoft.FSharp.Compiler.Interactive.Shell
 
 [<EntryPoint>]

@@ -1,4 +1,4 @@
 
 #load "2.fsx"
-
-``2``.func()
+#load "3.fsx"
+printfn "HELLO FROM 1"
