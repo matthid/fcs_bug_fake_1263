@@ -21,5 +21,4 @@ let main args =
   use session = FsiEvaluationSession.Create(fsiConfig, fsiArgs, inStream, Console.Out, Console.Error)
   session.EvalScriptNonThrowing scriptFilePath |> printfn "%A"
   //execScript scriptFilePath
-  Console.ReadKey() |> ignore
   0
